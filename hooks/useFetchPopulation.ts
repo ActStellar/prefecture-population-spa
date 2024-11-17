@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { PopulationResponse } from '@/types/population'
-import { getPopulationEndpoint } from '@/utils/apiHelpers'
+import { getPopulation } from '@/utils/apiHelpers'
 
 export const useFetchPopulation = (prefCode: number) => {
   const [populationData, setPopulationData] = useState<PopulationResponse | null>(null)
@@ -9,9 +9,7 @@ export const useFetchPopulation = (prefCode: number) => {
   useEffect(() => {
     const fetchPopulation = async () => {
       try {
-        const response = await fetch(getPopulationEndpoint(prefCode))
-        if (!response.ok) throw new Error('人口データの取得に失敗しました')
-        const data = await response.json()
+        const data = await getPopulation(prefCode)
         setPopulationData(data)
       } catch (err) {
         setError(err instanceof Error ? err.message : '不明なエラーが発生しました')
